@@ -1,14 +1,23 @@
 package com.tuts.prakash.retrofittutorial.activity;
 
 import android.app.ProgressDialog;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.view.View;
 import android.widget.Toast;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.tuts.prakash.retrofittutorial.R;
 import com.tuts.prakash.retrofittutorial.adapter.CustomAdapter;
+import com.tuts.prakash.retrofittutorial.adapter.PhotoAdapter;
 import com.tuts.prakash.retrofittutorial.model.RetroPhoto;
 import com.tuts.prakash.retrofittutorial.network.GetDataService;
 import com.tuts.prakash.retrofittutorial.network.RetrofitClientInstance;
@@ -21,7 +30,8 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    private CustomAdapter adapter;
+    //    private CustomAdapter adapter;
+    private PhotoAdapter mPhotoAdapter;
     private RecyclerView recyclerView;
     ProgressDialog progressDoalog;
 
@@ -55,12 +65,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /*Method to generate List of data using RecyclerView with custom adapter*/
-    private void generateDataList(List<RetroPhoto> photoList) {
+    private void generateDataList(final List<RetroPhoto> photoList) {
         recyclerView = findViewById(R.id.customRecyclerView);
-        adapter = new CustomAdapter(this,photoList);
+//        adapter = new CustomAdapter(this, photoList);
+        mPhotoAdapter = new PhotoAdapter(R.layout.custom_row, photoList, this);
+        mPhotoAdapter.setAnimationEnable(true);
+        mPhotoAdapter.setAnimationWithDefault(BaseQuickAdapter.AnimationType.ScaleIn);
+        mPhotoAdapter.setAnimationFirstOnly(false);
+        mPhotoAdapter.setOnItemClickListener(new OnItemClickListener() {
+
+            @Override
+            public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
+                Toast.makeText(MainActivity.this, "onItemClick" + photoList.get(position).getTitle(), Toast.LENGTH_SHORT).show();
+            }
+        });
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(mPhotoAdapter);
     }
 
 }

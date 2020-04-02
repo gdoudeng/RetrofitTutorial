@@ -1,7 +1,7 @@
 package com.tuts.prakash.retrofittutorial.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +24,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
     private List<RetroPhoto> dataList;
     private Context context;
 
-    public CustomAdapter(Context context,List<RetroPhoto> dataList){
+    public CustomAdapter(Context context, List<RetroPhoto> dataList) {
         this.context = context;
         this.dataList = dataList;
     }
@@ -62,7 +62,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                 .placeholder((R.drawable.ic_launcher_background))
                 .error(R.drawable.ic_launcher_background)
                 .into(holder.coverImage);
-
     }
 
     @Override
